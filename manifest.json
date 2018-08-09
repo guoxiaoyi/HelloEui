@@ -13,6 +13,7 @@
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
 		"bin-debug/ThemeAdapter.js",
+		"bin-debug/scene/GameScene.js",
 		"bin-debug/scene/HallScene.js",
 		"bin-debug/scene/PinShiConfig.js"
 	]

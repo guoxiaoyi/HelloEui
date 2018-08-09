@@ -1,4 +1,5 @@
 
+const roomConfig = {}
 class PinShiConfig extends eui.UILayer{
     public constructor(stageW,stageH) {
         super();
@@ -35,18 +36,10 @@ class PinShiConfig extends eui.UILayer{
     }
     private onPostComplete(event:egret.Event):void {
         var request = <egret.HttpRequest>event.currentTarget;
-
-
-
-
-
         let configbg = this.createBitmapByName("bg2_png");
         configbg.width = this.stage.stageWidth;
         configbg.height = this.stage.stageHeight;
         this.addChild(configbg);
-
-
-
         let createRoom = this.createBitmapByName("create_png");
         createRoom.width = 512;
         createRoom.height = 632;
@@ -54,13 +47,8 @@ class PinShiConfig extends eui.UILayer{
         createRoom.x = (this.stage.stageWidth - 512)/2;
         createRoom.y = (this.stage.stageHeight - 632)/2;
         this.addChild(createRoom)
-
-
-
         let goBack = this.createBitmapByName("close_png");
-
         goBack.x = (this.stage.stageWidth - 512)/2 + 512 - 50;
-
         goBack.y = (this.stage.stageHeight - 632)/2 + 10;
         goBack.touchEnabled = true;
         goBack.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onTouch,this);
@@ -76,8 +64,6 @@ class PinShiConfig extends eui.UILayer{
             let _text = {"gameDf" : "底分", "gameGz": "规则", "gameJs" :"局数", "gamePs": "牌型", "peopleNumber": "人数"}[key]
             config_i18n.text = _text;
             configGroup.addChild(config_i18n)
-
-
             // 选项
             for (var i = 0; i < room_config[key].length; ++i) {
                 let rdb: eui.RadioButton = new eui.RadioButton();
@@ -87,11 +73,14 @@ class PinShiConfig extends eui.UILayer{
                 rdb.addEventListener(eui.UIEvent.CHANGE,
                     this.radioChangeHandler,
                     this);
+                if (i == 0 ) {
+                    rdb.selected = true
+                    roomConfig[key] = room_config[key][i].key
+                }
                 configOptionGroup.addChild(rdb)
             }
             configOptionGroup.layout = new eui.HorizontalLayout();
             configGroup.addChild(configOptionGroup);
-
             containerGroup.addChild(configGroup);
             containerGroup.addChild(configOptionGroup);
         }
@@ -105,6 +94,7 @@ class PinShiConfig extends eui.UILayer{
         button.label = "Confirm";
         button.horizontalCenter = 0;
         button.verticalCenter = 0;
+        button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.btnTouchHandler,this);
         containerGroup.addChild(button);
     }
     private onPostIOError(event:egret.IOErrorEvent):void {
@@ -113,9 +103,33 @@ class PinShiConfig extends eui.UILayer{
     private onPostProgress(event:egret.ProgressEvent):void {
         console.log("post progress : " + Math.floor(100*event.bytesLoaded/event.bytesTotal) + "%");
     }
+    private btnTouchHandler(event:egret.TouchEvent):void {
+
+        let str = ""
+        for (let i in roomConfig) {
+            str = str + i + "=" + roomConfig[i] + "&"
+        }
+
+        var request = new egret.HttpRequest();
+        request.responseType = egret.HttpResponseType.TEXT;
+        //设置为 POST 请求
+        request.open("http://154.48.225.93/game/createRoom",egret.HttpMethod.POST);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        console.log(str.substr(0,str.length-1))
+        request.send(str.substr(0,str.length-1));
+        request.addEventListener(egret.Event.COMPLETE,this.onCreateRommComplete,this);
+    }
+    private onCreateRommComplete(event:egret.TouchEvent):void{
+        let result =  <egret.HttpRequest>event.currentTarget
+        let _params = JSON.parse(result.response)
+        if (_params.result == "200") {
+            let game_scene = new GameScene(_params);
+            this.parent.addChild(game_scene);
+            // game_scene.touchEnabled = true;
+            this.parent.removeChild(this);
+        }
+    }
     private radioChangeHandler(evt:eui.UIEvent):void {
-        var _params = "";
-        _params = _params + evt.target.groupName
-        // egret.log(roomConfig);
+        roomConfig[evt.target.groupName] = evt.target.value
     }
 }

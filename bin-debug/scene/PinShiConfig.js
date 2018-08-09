@@ -8,6 +8,7 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+var roomConfig = {};
 var PinShiConfig = (function (_super) {
     __extends(PinShiConfig, _super);
     function PinShiConfig(stageW, stageH) {
@@ -75,6 +76,10 @@ var PinShiConfig = (function (_super) {
                 rdb.value = room_config[key][i].key;
                 rdb.groupName = key;
                 rdb.addEventListener(eui.UIEvent.CHANGE, this.radioChangeHandler, this);
+                if (i == 0) {
+                    rdb.selected = true;
+                    roomConfig[key] = room_config[key][i].key;
+                }
                 configOptionGroup.addChild(rdb);
             }
             configOptionGroup.layout = new eui.HorizontalLayout();
@@ -90,6 +95,7 @@ var PinShiConfig = (function (_super) {
         button.label = "Confirm";
         button.horizontalCenter = 0;
         button.verticalCenter = 0;
+        button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btnTouchHandler, this);
         containerGroup.addChild(button);
     };
     PinShiConfig.prototype.onPostIOError = function (event) {
@@ -98,10 +104,32 @@ var PinShiConfig = (function (_super) {
     PinShiConfig.prototype.onPostProgress = function (event) {
         console.log("post progress : " + Math.floor(100 * event.bytesLoaded / event.bytesTotal) + "%");
     };
+    PinShiConfig.prototype.btnTouchHandler = function (event) {
+        var str = "";
+        for (var i in roomConfig) {
+            str = str + i + "=" + roomConfig[i] + "&";
+        }
+        var request = new egret.HttpRequest();
+        request.responseType = egret.HttpResponseType.TEXT;
+        //设置为 POST 请求
+        request.open("http://154.48.225.93/game/createRoom", egret.HttpMethod.POST);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        console.log(str.substr(0, str.length - 1));
+        request.send(str.substr(0, str.length - 1));
+        request.addEventListener(egret.Event.COMPLETE, this.onCreateRommComplete, this);
+    };
+    PinShiConfig.prototype.onCreateRommComplete = function (event) {
+        var result = event.currentTarget;
+        var _params = JSON.parse(result.response);
+        if (_params.result == "200") {
+            var game_scene = new GameScene(_params);
+            this.parent.addChild(game_scene);
+            // game_scene.touchEnabled = true;
+            this.parent.removeChild(this);
+        }
+    };
     PinShiConfig.prototype.radioChangeHandler = function (evt) {
-        var _params = "";
-        _params = _params + evt.target.groupName;
-        // egret.log(roomConfig);
+        roomConfig[evt.target.groupName] = evt.target.value;
     };
     return PinShiConfig;
 }(eui.UILayer));
