@@ -37,8 +37,6 @@ var HallScene = (function (_super) {
         var imageLoader = new egret.ImageLoader();
         imageLoader.addEventListener(egret.Event.COMPLETE, this.loadCompleteHandler, this);
         imageLoader.load(userSession().url);
-        // let avatar = this.createBitmapByName("avatar_jpg");
-        // this.addChild(avatar);
         var userName = new egret.TextField();
         userName.text = userSession().name;
         userName.size = 25;
@@ -66,23 +64,12 @@ var HallScene = (function (_super) {
         userId.x = 140;
         userId.y = 90;
         this.addChild(userId);
-        // var request = new egret.HttpRequest();
-        // request.responseType = egret.HttpResponseType.TEXT;
-        // // //设置为 POST 请求
-        // // request.open("http://httpbin.org/post",egret.HttpMethod.POST);
-        // // request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        // // request.send();
-        // // request.addEventListener(egret.Event.COMPLETE,this.onPostComplete,this);
-        // // request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.onPostIOError,this);
-        // // request.addEventListener(egret.ProgressEvent.PROGRESS,this.onPostProgress,this);
-        // // // console.log(callJsFunc("a"))
         var img = new egret.Bitmap();
         img.texture = RES.getRes("game1_png");
         img.width = 678;
         img.height = 298;
         img.scaleX = 0.9;
         img.scaleY = 0.9;
-        // img.height = 298;
         img.x = 15;
         img.y = 180;
         this.addChild(img);
@@ -95,12 +82,6 @@ var HallScene = (function (_super) {
         button_a.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchBegin, this);
         button_a.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouch, this);
         button_a.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onMove, this);
-        // var button = new eui.Button();
-        // button.x = 350;
-        // button.y = 347;
-        // button.skinName = "resource/game/ButtonSkin.exml";
-        // this.addChild(button);
-        // button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.btnTouchHandler,this);
     };
     HallScene.prototype.touchBegin = function (evt) {
         // evt.currentTarget.scaleX = 0.8
