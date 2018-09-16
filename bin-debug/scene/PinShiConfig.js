@@ -88,13 +88,14 @@ var PinShiConfig = (function (_super) {
             var config_i18n = new eui.Label();
             var _text = { "gameDf": "底分", "gameGz": "规则", "gameJs": "局数", "gamePs": "牌型", "peopleNumber": "人数" }[key];
             config_i18n.text = _text;
-            config_i18n.size = 20;
+            config_i18n.size = 24;
             configGroup.addChild(config_i18n);
             // 选项
             for (var i = 0; i < room_config[key].length; ++i) {
                 var rdb = new eui.RadioButton();
                 rdb.label = room_config[key][i].text;
                 rdb.value = room_config[key][i].key;
+                // rdb.label.size = 24;
                 rdb.groupName = key;
                 rdb.addEventListener(eui.UIEvent.CHANGE, this.radioChangeHandler, this);
                 if (i == 0) {
@@ -103,7 +104,12 @@ var PinShiConfig = (function (_super) {
                 }
                 configOptionGroup.addChild(rdb);
             }
-            configOptionGroup.layout = new eui.VerticalLayout();
+            if (key == "gameGz") {
+                configOptionGroup.layout = new eui.VerticalLayout();
+            }
+            else {
+                configOptionGroup.layout = new eui.HorizontalLayout();
+            }
             OptionGroup.addChild(configGroup);
             OptionGroup.addChild(configOptionGroup);
             OptionGroup.layout = new eui.HorizontalLayout();

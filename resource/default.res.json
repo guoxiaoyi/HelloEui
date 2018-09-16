@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,close_png,balance_png,balancbg_png,avatarbg_jpg,button_png,game1_png,create_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,button_enter_png",
+			"keys": "checkbox_select_disabled_png,close_png,balance_png,balancbg_png,avatarbg_jpg,button_png,game1_png,create_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,button_enter_png,radiobutton_unselect_0_png,radiobutton_select_disabled_0_png,radiobutton_select_down_0_png,radiobutton_select_up_0_png",
 			"name": "preload"
 		}
 	],
@@ -175,6 +175,26 @@
 			"name": "button_enter_png",
 			"type": "image",
 			"url": "assets/Button/button_enter.png"
+		},
+		{
+			"name": "radiobutton_unselect_0_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_unselect_0.png"
+		},
+		{
+			"name": "radiobutton_select_disabled_0_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_disabled_0.png"
+		},
+		{
+			"name": "radiobutton_select_down_0_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_down_0.png"
+		},
+		{
+			"name": "radiobutton_select_up_0_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_up_0.png"
 		}
 	]
 }
